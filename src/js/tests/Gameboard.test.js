@@ -1,22 +1,35 @@
 import Gameboard from "../modules/Gameboard";
 import Ship from "../modules/Ship";
+const x = 10;
+const y = 10;
+const testBoard = new Gameboard(x, y);
 
-test("Board constructor works", () => {
-  const x = 5;
-  const y = 4;
-  const testBoard = new Gameboard(x, y);
-  expect(testBoard.getBoard().length).toBe(5);
-  expect(testBoard.getBoard()[0].length).toBe(4);
-
+afterEach(() => {
   console.table(testBoard.getBoard());
 });
 
-test("placeShip() works", () => {
-  const x = 5;
-  const y = 4;
-  const testBoard = new Gameboard(x, y);
+test("Board constructor works", () => {
+  expect(testBoard.getBoard().length).toBe(x);
+  expect(testBoard.getBoard()[0].length).toBe(y);
+});
+
+test("placeShip() works in a valid set of tiles, vertical", () => {
   const length = 3;
   const testShip = new Ship(length, "x");
-  expect(testBoard.placeShip(0, 0, testShip)).toBe(true);
-  console.table(testBoard.getBoard());
+  expect(testBoard.placeShip(4, 2, testShip)).toBe(true);
+});
+test("placeShip() works in a valid set of tiles, horizontal", () => {
+  const length = 3;
+  const testShip = new Ship(length, "y");
+  expect(testBoard.placeShip(1, 5, testShip)).toBe(true);
+});
+test("placeShip() when out of bounds", () => {
+  const length = 3;
+  const testShip = new Ship(length, "x");
+  expect(testBoard.placeShip(8, 3, testShip)).toBe(false);
+});
+test("placeShip() when atempting ship superposition", () => {
+  const length = 3;
+  const testShip = new Ship(length, "y");
+  expect(testBoard.placeShip(5, 2, testShip)).toBe(false);
 });

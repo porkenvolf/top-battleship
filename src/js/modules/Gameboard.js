@@ -15,11 +15,11 @@ export default class Gameboard {
   placeShip(x, y, ship) {
     const x1 = x;
     const y1 = y;
-    const x2 = ship.getAxis()[0] * ship.getLength() + x1;
-    const y2 = ship.getAxis()[1] * ship.getLength() + y1;
+    const x2 = ship.getAxis()[0] * (ship.getLength() - 1) + x1;
+    const y2 = ship.getAxis()[1] * (ship.getLength() - 1) + y1;
 
     if (this.#checkValid(x1, y1, x2, y2)) {
-      this.#ships.push({ ship, x, y });
+      this.#ships.push({ ship, x1, y1, x2, y2 });
       this.#updateBoard();
       return true;
     }
@@ -31,11 +31,8 @@ export default class Gameboard {
   }
 
   #updateBoard() {
-    this.#ships.forEach((ship) => {
-      const x1 = ship.x;
-      const y1 = ship.y;
-      const x2 = ship.ship.getAxis()[0] * ship.ship.getLength() + x1;
-      const y2 = ship.ship.getAxis()[1] * ship.ship.getLength() + y1;
+    this.#ships.forEach((obj) => {
+      const { x1, y1, x2, y2 } = obj;
 
       for (let i = x1; i <= x2; i++) {
         for (let j = y1; j <= y2; j++) {
@@ -64,6 +61,9 @@ export default class Gameboard {
     if (!_x2 || !_y2) {
       x2 = x1;
       y2 = y1;
+    } else {
+      x2 = _x2;
+      y2 = _y2;
     }
     for (let i = x1; i <= x2; i++) {
       for (let j = y1; j <= y2; j++) {
