@@ -6,3 +6,10 @@ test("hit() and isSunk() work", () => {
   expect(testShip.hit().isSunk()).toBe(false);
   expect(testShip.hit().isSunk()).toBe(true);
 });
+
+test("getAxis() works", () => {
+  const testShip1 = new Ship(2, "x");
+  const testShip2 = new Ship(2, "y");
+  expect(testShip1.getAxis()).toBe("x");
+  expect(testShip2.getAxis()).toBe("y");
+});
