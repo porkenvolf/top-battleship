@@ -5,7 +5,7 @@ export default class Ship {
 
   #hits;
 
-  constructor(length = 1, axis = x) {
+  constructor(length = 1, axis = "x") {
     this.#length = length;
     this.#axis = axis;
     this.#hits = 0;
