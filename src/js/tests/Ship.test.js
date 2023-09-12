@@ -13,3 +13,9 @@ test("getAxis() works", () => {
   expect(testShip1.getAxis()).toBe("x");
   expect(testShip2.getAxis()).toBe("y");
 });
+test("getLength() works", () => {
+  const testShip1 = new Ship(2, "x");
+  const testShip2 = new Ship(5, "y");
+  expect(testShip1.getLength()).toBe(2);
+  expect(testShip2.getLength()).toBe(5);
+});
