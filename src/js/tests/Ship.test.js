@@ -10,8 +10,8 @@ test("hit() and isSunk() work", () => {
 test("getAxis() works", () => {
   const testShip1 = new Ship(2, "x");
   const testShip2 = new Ship(2, "y");
-  expect(testShip1.getAxis()).toBe("x");
-  expect(testShip2.getAxis()).toBe("y");
+  expect(testShip1.getAxis()).toEqual([1, 0]);
+  expect(testShip2.getAxis()).toEqual([0, 1]);
 });
 test("getLength() works", () => {
   const testShip1 = new Ship(2, "x");
