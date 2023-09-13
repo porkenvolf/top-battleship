@@ -5,7 +5,7 @@ export default class Gameboard {
     for (let i = 0; i < x; i++) {
       this.#board[i] = [];
       for (let j = 0; j < y; j++) {
-        this.#board[i].push(" ");
+        this.#board[i].push({ hit: false, obj: null });
       }
     }
   }
@@ -28,21 +28,43 @@ export default class Gameboard {
   }
 
   receiveAttack(x, y) {
-    if (!this.#checkValid(x, y)) {
-      return false;
-    }
+    if (this.#checkAlreadyHit(x, y)) return false;
+
+    this.#board[x][y].hit = true;
+    if (this.#board[x][y].obj) this.#board[x][y].obj.hit();
+
     return true;
   }
 
   #updateBoard({ ship, x1, y1, x2, y2 }) {
     for (let i = x1; i <= x2; i++) {
       for (let j = y1; j <= y2; j++) {
-        this.#board[i][j] = ship;
+        this.#board[i][j].obj = ship;
       }
     }
   }
 
   #checkValid(x1, y1, _x2 = null, _y2 = null) {
+    if (!this.#checkOutOfBounds(x1, y1, _x2, _y2)) return false;
+    let x2;
+    let y2;
+    if (!_x2 || !_y2) {
+      x2 = x1;
+      y2 = y1;
+    } else {
+      x2 = _x2;
+      y2 = _y2;
+    }
+    for (let i = x1; i <= x2; i++) {
+      for (let j = y1; j <= y2; j++) {
+        if (this.#board[i][j].obj) return false;
+      }
+    }
+
+    return true;
+  }
+
+  #checkOutOfBounds(x1, y1, _x2 = null, _y2 = null) {
     if (
       x1 < 0 ||
       y1 < 0 ||
@@ -55,22 +77,11 @@ export default class Gameboard {
     ) {
       return false;
     }
-
-    let x2;
-    let y2;
-    if (!_x2 || !_y2) {
-      x2 = x1;
-      y2 = y1;
-    } else {
-      x2 = _x2;
-      y2 = _y2;
-    }
-    for (let i = x1; i <= x2; i++) {
-      for (let j = y1; j <= y2; j++) {
-        if (this.#board[i][j] !== " ") return false;
-      }
-    }
-
     return true;
+  }
+
+  #checkAlreadyHit(x, y) {
+    if (!this.#checkOutOfBounds(x, y)) return false;
+    return this.#board[x][y].hit;
   }
 }

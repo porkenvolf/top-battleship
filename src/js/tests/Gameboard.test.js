@@ -5,7 +5,7 @@ const y = 10;
 const testBoard = new Gameboard(x, y);
 
 afterEach(() => {
-  console.table(testBoard.getBoard());
+  //console.table(testBoard.getBoard());
 });
 
 test("Board constructor works", () => {
@@ -34,5 +34,23 @@ test("placeShip() when atempting ship superposition", () => {
   expect(testBoard.placeShip(5, 2, testShip)).toBe(false);
 });
 test("check ship from the board against Ship class", () => {
-  expect(testBoard.getBoard()[4][2] instanceof Ship).toBe(true);
+  expect(testBoard.getBoard()[4][2].obj instanceof Ship).toBe(true);
+});
+test("receive attack cant only hit the same tile once", () => {
+  expect(testBoard.receiveAttack(0, 2)).toBe(true);
+  expect(testBoard.receiveAttack(0, 2)).toBe(false);
+});
+test("Check that every tile of the ship references the same object", () => {
+  expect(
+    testBoard.getBoard()[4][2].obj === testBoard.getBoard()[5][2].obj,
+  ).toBe(true);
+  expect(
+    testBoard.getBoard()[6][2].obj === testBoard.getBoard()[5][2].obj,
+  ).toBe(true);
+});
+test("sink a ship", () => {
+  testBoard.receiveAttack(4, 2);
+  testBoard.receiveAttack(5, 2);
+  testBoard.receiveAttack(6, 2);
+  expect(testBoard.getBoard()[5][2].obj.isSunk()).toBe(true);
 });
