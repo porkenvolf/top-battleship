@@ -5,7 +5,7 @@ const y = 10;
 const testBoard = new Gameboard(x, y);
 
 afterEach(() => {
-  //console.table(testBoard.getBoard());
+  console.table(testBoard.renderCli());
 });
 
 test("Board constructor works", () => {

@@ -36,6 +36,28 @@ export default class Gameboard {
     return true;
   }
 
+  renderCli(board = this.#board) {
+    const isOwnBoard = board === this.#board;
+    const render = [];
+    for (let i = 0; i < board.length; i++) {
+      render[i] = [];
+      for (let j = 0; j < board[0].length; j++) {
+        if (!board[i][j].hit && !isOwnBoard) {
+          render[i][j] = " ";
+        } else if (board[i][j].obj) {
+          if (board[i][j].obj.isSunk()) {
+            render[i][j] = "X";
+          } else {
+            render[i][j] = "S";
+          }
+        } else {
+          render[i][j] = "_";
+        }
+      }
+    }
+    return render;
+  }
+
   #updateBoard({ ship, x1, y1, x2, y2 }) {
     for (let i = x1; i <= x2; i++) {
       for (let j = y1; j <= y2; j++) {
