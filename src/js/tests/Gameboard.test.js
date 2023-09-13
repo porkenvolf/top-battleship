@@ -33,3 +33,6 @@ test("placeShip() when atempting ship superposition", () => {
   const testShip = new Ship(length, "y");
   expect(testBoard.placeShip(5, 2, testShip)).toBe(false);
 });
+test("check ship from the board against Ship class", () => {
+  expect(testBoard.getBoard()[4][2] instanceof Ship).toBe(true);
+});

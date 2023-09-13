@@ -1,8 +1,6 @@
 export default class Gameboard {
   #board = [];
 
-  #ships = [];
-
   constructor(x = 1, y = 1) {
     for (let i = 0; i < x; i++) {
       this.#board[i] = [];
@@ -19,8 +17,7 @@ export default class Gameboard {
     const y2 = ship.getAxis()[1] * (ship.getLength() - 1) + y1;
 
     if (this.#checkValid(x1, y1, x2, y2)) {
-      this.#ships.push({ ship, x1, y1, x2, y2 });
-      this.#updateBoard();
+      this.#updateBoard({ ship, x1, y1, x2, y2 });
       return true;
     }
     return false;
@@ -30,16 +27,19 @@ export default class Gameboard {
     return this.#board;
   }
 
-  #updateBoard() {
-    this.#ships.forEach((obj) => {
-      const { x1, y1, x2, y2 } = obj;
+  receiveAttack(x, y) {
+    if (!this.#checkValid(x, y)) {
+      return false;
+    }
+    return true;
+  }
 
-      for (let i = x1; i <= x2; i++) {
-        for (let j = y1; j <= y2; j++) {
-          this.#board[i][j] = "S";
-        }
+  #updateBoard({ ship, x1, y1, x2, y2 }) {
+    for (let i = x1; i <= x2; i++) {
+      for (let j = y1; j <= y2; j++) {
+        this.#board[i][j] = ship;
       }
-    });
+    }
   }
 
   #checkValid(x1, y1, _x2 = null, _y2 = null) {
