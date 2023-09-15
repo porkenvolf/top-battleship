@@ -2,7 +2,7 @@ import Gameboard from "../modules/Gameboard";
 import Ship from "../modules/Ship";
 const x = 10;
 const y = 10;
-const testBoard = new Gameboard(x, y);
+const testBoard = new Gameboard([x, y]);
 
 afterEach(() => {
   console.table(testBoard.renderCli());

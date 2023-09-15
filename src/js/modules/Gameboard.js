@@ -1,10 +1,10 @@
 export default class Gameboard {
   #board = [];
 
-  constructor(x = 1, y = 1) {
-    for (let i = 0; i < x; i++) {
+  constructor(boardTemplate) {
+    for (let i = 0; i < boardTemplate[0]; i++) {
       this.#board[i] = [];
-      for (let j = 0; j < y; j++) {
+      for (let j = 0; j < boardTemplate[1]; j++) {
         this.#board[i].push({ hit: false, obj: null });
       }
     }
