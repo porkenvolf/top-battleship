@@ -1,0 +1,9 @@
+#UIBoard {
+  border: 1px solid black;
+  background: red;
+  display: grid;
+}
+#UIBoard .tile {
+  aspect-ratio: 1/1;
+  border: 1px solid black;
+}
