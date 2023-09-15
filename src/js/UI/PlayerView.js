@@ -1,26 +1,40 @@
 import UIComponent from "./UIComponent";
 import UIBoard from "./UIBoard";
+import Pubsub from "../modules/Pubsub";
 
 export default class PlayerView extends UIComponent {
-  constructor(player, opponent) {
+  #player;
+
+  constructor(player) {
     super();
 
+    this.#player = player;
     // Player name
     const playerName = document.createElement("div");
     this.getContainer().append(playerName);
     playerName.innerText = player.name;
 
+    //
+    this.divInfo = document.createElement("div");
+    this.getContainer().append(this.divInfo);
+
     // My board
-    const myBoard = new UIBoard(player.getBoard());
-    this.getContainer().append(myBoard.getContainer());
+    this.myBoard = new UIBoard(player.getBoard());
+    this.getContainer().append(this.myBoard.getContainer());
+    this.stateManager();
+  }
 
-    // Opponent name
-    const opName = document.createElement("div");
-    this.getContainer().append(opName);
-    opName.innerText = opponent.name;
+  stateManager() {
+    Pubsub.on("setupPlayer", () => {
+      this.divInfo.innerText = "Please set up your ships";
 
-    // Their board
-    const theirBoard = new UIBoard(opponent.getBoard());
-    this.getContainer().append(theirBoard.getContainer());
+      const array = this.myBoard.getContainer().querySelectorAll(".tile");
+
+      array.forEach((tile) => {
+        tile.addEventListener("click", (event) => {
+          console.log(event.target);
+        });
+      });
+    });
   }
 }

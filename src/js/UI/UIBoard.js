@@ -16,6 +16,8 @@ export default class UIBoard extends UIComponent {
     for (let i = 0; i < x * y; i++) {
       const tile = document.createElement("div");
       tile.classList = "tile";
+      tile.setAttribute("data-col", i % y);
+      tile.setAttribute("data-row", Math.floor(i / 10));
 
       this.getContainer().append(tile);
     }
