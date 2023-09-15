@@ -1,4 +1,5 @@
 import UIComponent from "./UIComponent";
+import Pubsub from "../modules/Pubsub";
 
 import "../../css/UI/UIBoard.css";
 
@@ -6,6 +7,7 @@ export default class UIBoard extends UIComponent {
   constructor(gameBoardObject) {
     super();
     this.getContainer().id = "UIBoard";
+    this.gameBoardObject = gameBoardObject;
 
     const x = gameBoardObject.getBoard().length;
     const y = gameBoardObject.getBoard()[0].length;
@@ -21,5 +23,26 @@ export default class UIBoard extends UIComponent {
 
       this.getContainer().append(tile);
     }
+
+    this.bindEvents();
+    this.render();
+  }
+
+  render() {
+    console.log("render");
+    for (let i = 0; i < this.gameBoardObject.getBoard().length; i++) {
+      for (let j = 0; j < this.gameBoardObject.getBoard()[0].length; j++) {
+        const tile = this.getContainer().querySelector(
+          `.tile[data-row="${i}"][data-col="${j}"]`,
+        );
+        if (this.gameBoardObject.getBoard()[i][j].obj) tile.innerText = "S";
+      }
+    }
+  }
+
+  bindEvents() {
+    Pubsub.on("shipPlaced", () => {
+      this.render();
+    });
   }
 }

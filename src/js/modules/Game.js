@@ -10,8 +10,15 @@ export default class Game {
     this.shipsTemplate = [5, 4, 4, 3, 3, 3, 2, 2, 2, 2];
     const boardTemplate = [10, 10];
 
-    this.#players.push(new Player("player 1", new Gameboard(boardTemplate)));
-    this.#players.push(new Player("player 2", new Gameboard(boardTemplate)));
+    this.#players.push(
+      new Player(
+        "player 1",
+        new Gameboard(boardTemplate, this.shipsTemplate).randomizeShips(),
+      ),
+    );
+    this.#players.push(
+      new Player("player 2", new Gameboard(boardTemplate, this.shipsTemplate)),
+    );
   }
 
   getPlayers() {

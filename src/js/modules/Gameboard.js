@@ -1,7 +1,12 @@
+import Ship from "./Ship";
+import Pubsub from "./Pubsub";
+
 export default class Gameboard {
   #board = [];
 
-  constructor(boardTemplate) {
+  constructor(boardTemplate, shipsTemplate) {
+    this.shipsTemplate = shipsTemplate;
+
     for (let i = 0; i < boardTemplate[0]; i++) {
       this.#board[i] = [];
       for (let j = 0; j < boardTemplate[1]; j++) {
@@ -18,6 +23,8 @@ export default class Gameboard {
 
     if (this.#checkValid(x1, y1, x2, y2)) {
       this.#updateBoard({ ship, x1, y1, x2, y2 });
+      Pubsub.emit("shipPlaced");
+
       return true;
     }
     return false;
@@ -105,5 +112,19 @@ export default class Gameboard {
   #checkAlreadyHit(x, y) {
     if (!this.#checkOutOfBounds(x, y)) return false;
     return this.#board[x][y].hit;
+  }
+
+  randomizeShips() {
+    const shipsTemplateCopy = [...this.shipsTemplate];
+    while (shipsTemplateCopy.length > 0) {
+      const shipLength = shipsTemplateCopy[0];
+      const rndAxis = Math.round(Math.random()) > 0 ? "x" : "y";
+      const rndX = Math.floor(Math.random() * 10);
+      const rndY = Math.floor(Math.random() * 10);
+
+      const ship = new Ship(shipLength, rndAxis);
+      if (this.placeShip(rndX, rndY, ship)) shipsTemplateCopy.shift();
+    }
+    return this;
   }
 }
