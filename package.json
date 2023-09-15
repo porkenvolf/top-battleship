@@ -9,6 +9,7 @@
     "webpack-watch": "webpack --watch",
     "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
     "jest-watch": "jest --watch --verbose",
+    "git-watch": "onchange \"**/*\" -- sh -c 'clear && git status'",
     "gh-pages": "git subtree push --prefix dist origin gh-pages"
   },
   "repository": {
