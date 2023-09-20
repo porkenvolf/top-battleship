@@ -64,10 +64,14 @@ export default class App extends UIComponent {
       );
 
       this.playerViews[otherplayerID].getUIBoard().render(false);
-      this.playerViews[playerID].getUIBoard().render();
+      this.playerViews[playerID]
+        .getUIBoard()
+        .removeAllEventListeners()
+        .render();
 
       this.playerViews[otherplayerID]
         .getUIBoard()
+        .removeAllEventListeners()
         .getContainer()
         .querySelectorAll(".tile")
         .forEach((tile) => {
