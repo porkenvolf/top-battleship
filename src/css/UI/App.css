@@ -1,0 +1,7 @@
+#App {
+  position: relative;
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

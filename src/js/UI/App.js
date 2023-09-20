@@ -2,10 +2,16 @@ import UIComponent from "./UIComponent";
 import Game from "../modules/Game";
 import PlayerView from "./PlayerView";
 import Pubsub from "../modules/Pubsub";
+import Obfuscator from "./Obfuscator";
+
+import "../../css/UI/App.css";
 
 export default class App extends UIComponent {
   constructor() {
     super();
+
+    this.getContainer().id = "App";
+
     this.game = new Game();
 
     // create a playerView for each player
@@ -40,6 +46,7 @@ export default class App extends UIComponent {
     });
 
     Pubsub.on("UI.playTurn", (playerID) => {
+      this.getContainer().append(new Obfuscator().getContainer());
       const otherplayerID = playerID === 0 ? 1 : 0;
 
       this.playerViews[playerID].getUIBoard().removeAllEventListeners();
