@@ -28,30 +28,23 @@ export default class UIBoard extends UIComponent {
     this.render();
   }
 
-  render() {
+  render(isOwn = true) {
+    const newRender = this.gameBoardObject.render(isOwn);
+    console.table(newRender);
+
     for (let i = 0; i < this.gameBoardObject.getBoard().length; i++) {
       for (let j = 0; j < this.gameBoardObject.getBoard()[0].length; j++) {
         const UItile = this.getContainer().querySelector(
           `.tile[data-row="${i}"][data-col="${j}"]`,
         );
-        const tileContent = this.gameBoardObject.getBoard()[i][j];
-        if (tileContent.obj) {
-          if (tileContent.hit === true) {
-            UItile.innerText = "X";
-          } else {
-            UItile.innerText = "S";
-          }
-        }
-        if (!tileContent.obj && tileContent.hit) {
-          UItile.innerText = "_";
-        }
+        UItile.innerText = newRender[i][j];
       }
     }
   }
 
   bindEvents() {
-    Pubsub.on("UI.renderBoard", () => {
+    /* Pubsub.on("UI.renderBoard", () => {
       this.render();
-    });
+    }); */
   }
 }

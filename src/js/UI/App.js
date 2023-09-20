@@ -22,8 +22,8 @@ export default class App extends UIComponent {
   }
 
   stateManager() {
-    Pubsub.on("UI.setupPlayer", (playerId) => {
-      const playerView = this.playerViews[playerId];
+    Pubsub.on("UI.setupPlayer", (playerID) => {
+      const playerView = this.playerViews[playerID];
 
       playerView
         .setInfo("Please set up your ships")
@@ -40,9 +40,13 @@ export default class App extends UIComponent {
     });
 
     Pubsub.on("UI.playTurn", (playerID) => {
-      const otherPlayerID = playerID === 0 ? 1 : 0;
-      this.playerViews[otherPlayerID]
+      const otherplayerID = playerID === 0 ? 1 : 0;
+
+      this.playerViews[playerID].getUIBoard().removeAllEventListeners();
+
+      this.playerViews[otherplayerID]
         .getUIBoard()
+        .removeAllEventListeners()
         .getContainer()
         .querySelectorAll(".tile")
         .forEach((tile) => {
@@ -52,17 +56,22 @@ export default class App extends UIComponent {
             const col = event.target.getAttribute("data-col");
             const attack = this.game
               .getPlayers()
-              [otherPlayerID].getBoard()
+              [otherplayerID].getBoard()
               .receiveAttack(row, col);
-            if (attack) Pubsub.emit("UI.playTurn", otherPlayerID);
+            if (attack) {
+              Pubsub.emit("UI.playTurn", otherplayerID);
+            }
           });
         });
-      this.playerViews[otherPlayerID].getUIBoard().render();
 
-      this.getContainer().append(this.playerViews[playerID].getContainer());
+      this.playerViews[otherplayerID].getUIBoard().render(false);
+      this.playerViews[playerID].getUIBoard().render();
+
+      // appends
       this.getContainer().append(
-        this.playerViews[otherPlayerID].getContainer(),
+        this.playerViews[otherplayerID].getContainer(),
       );
+      this.getContainer().append(this.playerViews[playerID].getContainer());
     });
   }
 }
