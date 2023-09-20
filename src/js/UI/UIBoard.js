@@ -30,7 +30,6 @@ export default class UIBoard extends UIComponent {
 
   render(isOwn = true) {
     const newRender = this.gameBoardObject.render(isOwn);
-    console.table(newRender);
 
     for (let i = 0; i < this.gameBoardObject.getBoard().length; i++) {
       for (let j = 0; j < this.gameBoardObject.getBoard()[0].length; j++) {

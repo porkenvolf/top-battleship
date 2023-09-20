@@ -46,14 +46,26 @@ export default class App extends UIComponent {
     });
 
     Pubsub.on("UI.playTurn", (playerID) => {
-      this.getContainer().append(new Obfuscator().getContainer());
+      this.removeAllEventListeners();
+
       const otherplayerID = playerID === 0 ? 1 : 0;
 
-      this.playerViews[playerID].getUIBoard().removeAllEventListeners();
+      while (this.getContainer().firstChild) {
+        this.getContainer().removeChild(this.getContainer().firstChild);
+      }
+      // appends
+      this.getContainer().append(
+        this.playerViews[otherplayerID].getContainer(),
+      );
+      this.getContainer().append(this.playerViews[playerID].getContainer());
+
+      this.getContainer().append(new Obfuscator().getContainer());
+
+      this.playerViews[otherplayerID].getUIBoard().render(false);
+      this.playerViews[playerID].getUIBoard().render();
 
       this.playerViews[otherplayerID]
         .getUIBoard()
-        .removeAllEventListeners()
         .getContainer()
         .querySelectorAll(".tile")
         .forEach((tile) => {
@@ -66,19 +78,20 @@ export default class App extends UIComponent {
               [otherplayerID].getBoard()
               .receiveAttack(row, col);
             if (attack) {
-              Pubsub.emit("UI.playTurn", otherplayerID);
+              this.playerViews[otherplayerID].getUIBoard().render(false);
+              Pubsub.emit("UI.resultFeedback", playerID);
             }
           });
         });
+    });
 
-      this.playerViews[otherplayerID].getUIBoard().render(false);
-      this.playerViews[playerID].getUIBoard().render();
+    Pubsub.on("UI.resultFeedback", (playerID) => {
+      const otherplayerID = playerID === 0 ? 1 : 0;
 
-      // appends
-      this.getContainer().append(
-        this.playerViews[otherplayerID].getContainer(),
-      );
-      this.getContainer().append(this.playerViews[playerID].getContainer());
+      this.removeAllEventListeners();
+      this.getContainer().addEventListener("click", () => {
+        Pubsub.emit("UI.playTurn", otherplayerID);
+      });
     });
   }
 }
