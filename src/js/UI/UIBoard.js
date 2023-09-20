@@ -36,7 +36,8 @@ export default class UIBoard extends UIComponent {
         const UItile = this.getContainer().querySelector(
           `.tile[data-row="${i}"][data-col="${j}"]`,
         );
-        UItile.innerText = newRender[i][j];
+        UItile.className = "tile";
+        UItile.classList.add(newRender[i][j]);
       }
     }
   }

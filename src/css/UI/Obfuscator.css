@@ -2,5 +2,11 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background: blue;
+  background: rgb(181, 181, 181);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  text-align: center;
+  padding: 15px;
 }

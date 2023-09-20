@@ -59,7 +59,9 @@ export default class App extends UIComponent {
       );
       this.getContainer().append(this.playerViews[playerID].getContainer());
 
-      this.getContainer().append(new Obfuscator().getContainer());
+      this.getContainer().append(
+        new Obfuscator(this.game.getPlayers()[playerID].name).getContainer(),
+      );
 
       this.playerViews[otherplayerID].getUIBoard().render(false);
       this.playerViews[playerID].getUIBoard().render();

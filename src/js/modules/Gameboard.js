@@ -51,7 +51,7 @@ export default class Gameboard {
       render[i] = [];
       for (let j = 0; j < this.#board[0].length; j++) {
         if (!this.#board[i][j].hit && !isOwn) {
-          render[i][j] = " ";
+          render[i][j] = "O";
         } else if (this.#board[i][j].obj) {
           if (this.#board[i][j].obj.isSunk()) {
             render[i][j] = "X";
@@ -59,7 +59,7 @@ export default class Gameboard {
             render[i][j] = "S";
           }
         } else {
-          render[i][j] = "_";
+          render[i][j] = "W";
         }
       }
     }

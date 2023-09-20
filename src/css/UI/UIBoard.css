@@ -1,11 +1,26 @@
 #UIBoard {
-  border: 1px solid black;
-  background: red;
+  background: rgb(82, 82, 82);
   display: grid;
   max-height: 45vh;
+  max-width: 45vh;
   aspect-ratio: 1/1;
+  flex: 1;
 }
 #UIBoard .tile {
   aspect-ratio: 1/1;
-  border: 1px solid black;
+  border-bottom: 1px solid rgb(168, 168, 168);
+  border-right: 1px solid rgb(168, 168, 168);
+}
+#UIBoard .tile[data-row="0"] {
+  border-top: 1px solid rgb(168, 168, 168);
+}
+#UIBoard .tile[data-col="0"] {
+  border-left: 1px solid rgb(168, 168, 168);
+}
+
+#UIBoard .tile.O {
+  background: grey;
+}
+#UIBoard .tile.W {
+  background: white;
 }
