@@ -29,7 +29,6 @@ export default class UIBoard extends UIComponent {
   }
 
   render() {
-    console.log("render");
     for (let i = 0; i < this.gameBoardObject.getBoard().length; i++) {
       for (let j = 0; j < this.gameBoardObject.getBoard()[0].length; j++) {
         const tile = this.getContainer().querySelector(

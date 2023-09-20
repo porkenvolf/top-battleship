@@ -1,12 +1,13 @@
 import UIComponent from "./UIComponent";
 import UIBoard from "./UIBoard";
-import Pubsub from "../modules/Pubsub";
+import "../../css/UI/PlayerView.css";
 
 export default class PlayerView extends UIComponent {
   #player;
 
   constructor(player) {
     super();
+    this.getContainer().id = "PlayerView";
 
     this.#player = player;
     // Player name
@@ -21,20 +22,14 @@ export default class PlayerView extends UIComponent {
     // My board
     this.myBoard = new UIBoard(player.getBoard());
     this.getContainer().append(this.myBoard.getContainer());
-    this.stateManager();
   }
 
-  stateManager() {
-    Pubsub.on("setupPlayer", () => {
-      this.divInfo.innerText = "Please set up your ships";
+  setInfo(msg) {
+    this.divInfo.innerText = msg;
+    return this;
+  }
 
-      const array = this.myBoard.getContainer().querySelectorAll(".tile");
-
-      array.forEach((tile) => {
-        tile.addEventListener("click", (event) => {
-          console.log(event.target);
-        });
-      });
-    });
+  getUIBoard() {
+    return this.myBoard;
   }
 }
