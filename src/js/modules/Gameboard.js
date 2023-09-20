@@ -23,7 +23,7 @@ export default class Gameboard {
 
     if (this.#checkValid(x1, y1, x2, y2)) {
       this.#updateBoard({ ship, x1, y1, x2, y2 });
-      Pubsub.emit("shipPlaced");
+      Pubsub.emit("UI.renderBoard");
 
       return true;
     }
@@ -39,6 +39,8 @@ export default class Gameboard {
 
     this.#board[x][y].hit = true;
     if (this.#board[x][y].obj) this.#board[x][y].obj.hit();
+
+    Pubsub.emit("UI.renderBoard");
 
     return true;
   }

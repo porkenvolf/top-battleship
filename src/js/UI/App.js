@@ -47,14 +47,17 @@ export default class App extends UIComponent {
         .querySelectorAll(".tile")
         .forEach((tile) => {
           tile.addEventListener("click", (event) => {
+            console.log(event.target);
             const row = event.target.getAttribute("data-row");
             const col = event.target.getAttribute("data-col");
-            this.game
+            const attack = this.game
               .getPlayers()
               [otherPlayerID].getBoard()
               .receiveAttack(row, col);
+            if (attack) Pubsub.emit("UI.playTurn", otherPlayerID);
           });
         });
+      this.playerViews[otherPlayerID].getUIBoard().render();
 
       this.getContainer().append(this.playerViews[playerID].getContainer());
       this.getContainer().append(
